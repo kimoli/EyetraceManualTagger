@@ -89,6 +89,19 @@ function TrialSlider_Callback(hObject, eventdata, handles)
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 
+% update the displayed trial number
+trialSelected = int32(get(handles.TrialSlider, 'Value'));
+set(handles.trialDisplayEditTextbox, 'string', num2str(trialSelected))
+
+% update the displayed eyetrace plot
+axes(handles.eyetrace)
+trials = getappdata(0, 'trialdata');
+a = plot(trials.tm(trialSelected,:), trials.eyelidpos(trialSelected,:), ...
+    'Color', [0 0 1]);
+
+
+
+
 % --- Executes during object creation, after setting all properties.
 function TrialSlider_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to TrialSlider (see GCBO)
@@ -109,6 +122,31 @@ function trialDisplayEditTextbox_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of trialDisplayEditTextbox as text
 %        str2double(get(hObject,'String')) returns contents of trialDisplayEditTextbox as a double
+
+
+trials = getappdata(0, 'trialdata');
+numtrials = size(trials.eyelidpos,1);
+trialSelected = str2double(get(hObject, 'string'));
+
+if trialSelected<=numtrials && trialSelected>0
+    % update GUI
+    set(handles.TrialSlider, 'Value', trialSelected);
+    axes(handles.eyetrace)
+    trials = getappdata(0, 'trialdata');
+    a = plot(trials.tm(trialSelected,:), trials.eyelidpos(trialSelected,:), ...
+        'Color', [0 0 1]);
+else
+    % tell the user not to select impossible trialnumbers
+    a = 'Trial number';
+    b = num2str(trialSelected);
+    c = 'does not exist.';
+    message = [a ' ' b ' ' c];
+    f = msgbox(message,'no no no','error');
+    
+    % reset the edit textbox to the numerical value on the slider
+    currentTrial = int32(get(handles.TrialSlider, 'Value'));
+    set(handles.trialDisplayEditTextbox, 'string', num2str(currentTrial))
+end
 
 
 % --- Executes during object creation, after setting all properties.
@@ -136,9 +174,23 @@ cd(dname)
 
 % check the trialdata.mat file to determine if you need to set a different
 % calib baseline value
-trials = dir('trialdata.mat');
+loadMe = dir('trialdata.mat');
+load(loadMe.name)
+numtrials = size(trials.eyelidpos,1);
 
 setappdata(0, 'trialdata', trials)
+
+% update the display in the textbox & slider to reflect the first trial
+set(handles.trialDisplayEditTextbox, 'string', '1')
+set(handles.TrialSlider, 'Value', 1);
+set(handles.TrialSlider, 'min', 1);
+set(handles.TrialSlider, 'max', numtrials);
+set(handles.TrialSlider, 'SliderStep', [1/numtrials , 10/numtrials]);
+
+% plot the first trial
+axes(handles.eyetrace)
+a = plot(trials.tm(1,:), trials.eyelidpos(1,:), ...
+    'Color', [0 0 1]);
 
 
 
