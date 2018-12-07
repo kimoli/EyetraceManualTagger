@@ -54,6 +54,7 @@ function eyetraceSearchAndMarkGUI_OpeningFcn(hObject, eventdata, handles, vararg
 
 % set up hidden figure variables
 setappdata(0, 'trialdata', [])
+setappdata(0, 'markedTrials', [])
 
 % Choose default command line output for eyetraceSearchAndMarkGUI
 handles.output = hObject;
@@ -187,6 +188,11 @@ set(handles.TrialSlider, 'SliderStep', [1/numtrials , 10/numtrials]);
 axes(handles.eyetrace)
 plotEyetraceForSearchGUI(handles, trials, 1)
 
+% clear the marked trial table as this is no longer relevant to the new
+% file
+set(handles.uitable1,'Data',[])
+
+
 
 
 % --- Executes on button press in markTrialButton.
@@ -194,6 +200,13 @@ function markTrialButton_Callback(hObject, eventdata, handles)
 % hObject    handle to markTrialButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+%markedTrials = getappdata(0, 'markedTrials');
+markedTrials = get(handles.uitable1, 'Data');
+trialToMark = str2double(get(handles.trialDisplayEditTextbox, 'String'));
+markedTrials = [markedTrials; trialToMark];
+set(handles.uitable1,'Data',markedTrials)
+
 
 
 % --- Executes on button press in undoButton.
