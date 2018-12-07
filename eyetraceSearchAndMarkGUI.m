@@ -168,28 +168,40 @@ function loadFileButton_Callback(hObject, eventdata, handles)
 dname = uigetdir('L:\\users\okim\behavior', 'Select an animal and a day.'); % this assumes that the user is working on ALBUS
 cd(dname)
 
-% check the trialdata.mat file to determine if you need to set a different
-% calib baseline value
-loadMe = dir('trialdata.mat');
-load(loadMe.name)
-numtrials = size(trials.eyelidpos,1);
-
-setappdata(0, 'trialdata', trials)
-
-% update the display in the textbox & slider to reflect the first trial
-set(handles.trialDisplayEditTextbox, 'string', '1')
-set(handles.TrialSlider, 'Value', 1);
-set(handles.TrialSlider, 'min', 1);
-set(handles.TrialSlider, 'max', numtrials);
-set(handles.TrialSlider, 'SliderStep', [1/numtrials , 10/numtrials]);
-
-% plot the first trial
-axes(handles.eyetrace)
-plotEyetraceForSearchGUI(handles, trials, 1)
-
-% clear the marked trial table as this is no longer relevant to the new
-% file
-set(handles.uitable1,'Data',[])
+if exist(fullfile(cd, 'trialdata.mat'), 'file')
+    % check the trialdata.mat file to determine if you need to set a different
+    % calib baseline value
+    loadMe = dir('trialdata.mat');
+    load(loadMe.name)
+    numtrials = size(trials.eyelidpos,1);
+    
+    setappdata(0, 'trialdata', trials)
+    
+    % update the display in the textbox & slider to reflect the first trial
+    set(handles.trialDisplayEditTextbox, 'string', '1')
+    set(handles.TrialSlider, 'Value', 1);
+    set(handles.TrialSlider, 'min', 1);
+    set(handles.TrialSlider, 'max', numtrials);
+    set(handles.TrialSlider, 'SliderStep', [1/numtrials , 10/numtrials]);
+    
+    % plot the first trial
+    axes(handles.eyetrace)
+    plotEyetraceForSearchGUI(handles, trials, 1)
+    
+    % clear the marked trial table as this is no longer relevant to the new
+    % file
+    set(handles.uitable1,'Data',[])
+    
+    % update the save filename, assumes you have your files set up like OKim on
+    % 181207
+    mouse = dname(end-11:end-7);
+    day = dname(end-5:end);
+    tempstring = strcat(mouse, '_', day, '_markedTrials.mat');
+    set(handles.filenameEditTextbox, 'String', tempstring)
+else
+    message = 'Please select a folder that contains a trialdata.mat';
+    f = msgbox(message,'No trialdata','error');
+end
 
 
 
@@ -234,6 +246,17 @@ function saveButton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+filename = get(handles.filenameEditTextbox, 'String');
+if strcmpi('.mat', filename(end-3:end))
+    markedTrials = get(handles.uitable1, 'Data');
+    save(filename, 'markedTrials')
+    disp('File saved')
+else
+    % tell the user to set a filename ending in .mat
+    message = 'Please enter a filename that ends in .mat';
+    f = msgbox(message,'Bad filename','error');
+end
+
 
 
 function filenameEditTextbox_Callback(hObject, eventdata, handles)
@@ -242,7 +265,8 @@ function filenameEditTextbox_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hints: get(hObject,'String') returns contents of filenameEditTextbox as text
-%        str2double(get(hObject,'String')) returns contents of filenameEditTextbox as a double
+%        str2double(get(hObject,'String')) returns contents of
+%        filenameEditTextbox as a double
 
 
 % --- Executes during object creation, after setting all properties.
