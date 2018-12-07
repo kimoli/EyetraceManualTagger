@@ -22,7 +22,7 @@ function varargout = eyetraceSearchAndMarkGUI(varargin)
 
 % Edit the above text to modify the response to help eyetraceSearchAndMarkGUI
 
-% Last Modified by GUIDE v2.5 06-Dec-2018 17:56:45
+% Last Modified by GUIDE v2.5 07-Dec-2018 10:12:19
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -223,6 +223,112 @@ function filenameEditTextbox_Callback(hObject, eventdata, handles)
 % --- Executes during object creation, after setting all properties.
 function filenameEditTextbox_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to filenameEditTextbox (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function xlimEditTextbox_Callback(hObject, eventdata, handles)
+% hObject    handle to xlimEditTextbox (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of xlimEditTextbox as text
+%        str2double(get(hObject,'String')) returns contents of xlimEditTextbox as a double
+
+trials = getappdata(0, 'trialdata');
+trialSelected = str2double(get(handles.trialDisplayEditTextbox, 'String'));
+plotEyetraceForSearchGUI(handles, trials, trialSelected)
+
+% --- Executes during object creation, after setting all properties.
+function xlimEditTextbox_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to xlimEditTextbox (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function xmaxEditTextbox_Callback(hObject, eventdata, handles)
+% hObject    handle to xmaxEditTextbox (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of xmaxEditTextbox as text
+%        str2double(get(hObject,'String')) returns contents of xmaxEditTextbox as a double
+
+trials = getappdata(0, 'trialdata');
+trialSelected = str2double(get(handles.trialDisplayEditTextbox, 'String'));
+plotEyetraceForSearchGUI(handles, trials, trialSelected)
+
+
+% --- Executes during object creation, after setting all properties.
+function xmaxEditTextbox_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to xmaxEditTextbox (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function ylimEditTextbox_Callback(hObject, eventdata, handles)
+% hObject    handle to ylimEditTextbox (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of ylimEditTextbox as text
+%        str2double(get(hObject,'String')) returns contents of ylimEditTextbox as a double
+
+trials = getappdata(0, 'trialdata');
+trialSelected = str2double(get(handles.trialDisplayEditTextbox, 'String'));
+plotEyetraceForSearchGUI(handles, trials, trialSelected)
+
+
+% --- Executes during object creation, after setting all properties.
+function ylimEditTextbox_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to ylimEditTextbox (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function ymaxEditTextbox_Callback(hObject, eventdata, handles)
+% hObject    handle to ymaxEditTextbox (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of ymaxEditTextbox as text
+%        str2double(get(hObject,'String')) returns contents of ymaxEditTextbox as a double
+trials = getappdata(0, 'trialdata');
+trialSelected = str2double(get(handles.trialDisplayEditTextbox, 'String'));
+plotEyetraceForSearchGUI(handles, trials, trialSelected)
+
+
+% --- Executes during object creation, after setting all properties.
+function ymaxEditTextbox_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to ymaxEditTextbox (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
