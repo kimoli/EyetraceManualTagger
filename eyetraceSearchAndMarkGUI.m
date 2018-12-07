@@ -96,8 +96,7 @@ set(handles.trialDisplayEditTextbox, 'string', num2str(trialSelected))
 % update the displayed eyetrace plot
 axes(handles.eyetrace)
 trials = getappdata(0, 'trialdata');
-a = plot(trials.tm(trialSelected,:), trials.eyelidpos(trialSelected,:), ...
-    'Color', [0 0 1]);
+plotEyetraceForSearchGUI(handles, trials, trialSelected)
 
 
 
@@ -131,10 +130,7 @@ trialSelected = str2double(get(hObject, 'string'));
 if trialSelected<=numtrials && trialSelected>0
     % update GUI
     set(handles.TrialSlider, 'Value', trialSelected);
-    axes(handles.eyetrace)
-    trials = getappdata(0, 'trialdata');
-    a = plot(trials.tm(trialSelected,:), trials.eyelidpos(trialSelected,:), ...
-        'Color', [0 0 1]);
+    plotEyetraceForSearchGUI(handles, trials, trialSelected)
 else
     % tell the user not to select impossible trialnumbers
     a = 'Trial number';
@@ -189,8 +185,7 @@ set(handles.TrialSlider, 'SliderStep', [1/numtrials , 10/numtrials]);
 
 % plot the first trial
 axes(handles.eyetrace)
-a = plot(trials.tm(1,:), trials.eyelidpos(1,:), ...
-    'Color', [0 0 1]);
+plotEyetraceForSearchGUI(handles, trials, 1)
 
 
 
