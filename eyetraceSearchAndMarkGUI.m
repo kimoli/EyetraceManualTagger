@@ -52,6 +52,9 @@ function eyetraceSearchAndMarkGUI_OpeningFcn(hObject, eventdata, handles, vararg
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to eyetraceSearchAndMarkGUI (see VARARGIN)
 
+% set up hidden figure variables
+setappdata(0, 'trialdata', [])
+
 % Choose default command line output for eyetraceSearchAndMarkGUI
 handles.output = hObject;
 
@@ -126,6 +129,17 @@ function loadFileButton_Callback(hObject, eventdata, handles)
 % hObject    handle to loadFileButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+% tell user to select directory
+dname = uigetdir('L:\\users\okim\behavior', 'Select an animal and a day.'); % this assumes that the user is working on ALBUS
+cd(dname)
+
+% check the trialdata.mat file to determine if you need to set a different
+% calib baseline value
+trials = dir('trialdata.mat');
+
+setappdata(0, 'trialdata', trials)
+
 
 
 % --- Executes on button press in markTrialButton.
