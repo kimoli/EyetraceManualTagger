@@ -54,7 +54,6 @@ function eyetraceSearchAndMarkGUI_OpeningFcn(hObject, eventdata, handles, vararg
 
 % set up hidden figure variables
 setappdata(0, 'trialdata', [])
-setappdata(0, 'markedTrials', [])
 
 % Choose default command line output for eyetraceSearchAndMarkGUI
 handles.output = hObject;
@@ -201,7 +200,6 @@ function markTrialButton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%markedTrials = getappdata(0, 'markedTrials');
 markedTrials = get(handles.uitable1, 'Data');
 trialToMark = str2double(get(handles.trialDisplayEditTextbox, 'String'));
 markedTrials = [markedTrials; trialToMark];
@@ -214,6 +212,20 @@ function undoButton_Callback(hObject, eventdata, handles)
 % hObject    handle to undoButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+markedTrials = get(handles.uitable1, 'Data');
+if length(markedTrials)>1
+markedTrials = markedTrials(1:end-1,1);
+elseif isempty(markedTrials)
+    % tell the user not to select impossible trialnumbers
+    message = 'The table is already empty';
+    f = msgbox(message,'Stop','error');
+else
+    markedTrials = [];
+end
+set(handles.uitable1,'Data',markedTrials)
+
+
 
 
 % --- Executes on button press in saveButton.
