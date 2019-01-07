@@ -168,10 +168,10 @@ function loadFileButton_Callback(hObject, eventdata, handles)
 dname = uigetdir('L:\\users\okim\behavior', 'Select an animal and a day.'); % this assumes that the user is working on ALBUS
 cd(dname)
 
-if exist(fullfile(cd, 'trialdata.mat'), 'file')
+if exist(fullfile(cd, 'newTrialdata.mat'), 'file')
     % check the trialdata.mat file to determine if you need to set a different
     % calib baseline value
-    loadMe = dir('trialdata.mat');
+    loadMe = dir('newTrialdata.mat');
     load(loadMe.name)
     numtrials = size(trials.eyelidpos,1);
     
@@ -199,7 +199,7 @@ if exist(fullfile(cd, 'trialdata.mat'), 'file')
     tempstring = strcat(mouse, '_', day, '_markedTrials.mat');
     set(handles.filenameEditTextbox, 'String', tempstring)
 else
-    message = 'Please select a folder that contains a trialdata.mat';
+    message = 'Please select a folder that contains a newTrialdata.mat';
     f = msgbox(message,'No trialdata','error');
 end
 
